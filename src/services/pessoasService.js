@@ -11,6 +11,11 @@ const getPessoasById = async (params) => {
     return paciente.rows;
 };
 const persistir = async (params) => {
+  params.forEach(aluno => persisteRegistro(aluno)) 
+}
+
+const persisteRegistro= async (params) => {
+
   console.log(!params.id)
   if (!params.id) {
     let sql = `insert into pessoas (nome, cpfcnpj, celular, email, endereco, numero, bairro, complemento, cep, municipio, uf, ibge_municipio)

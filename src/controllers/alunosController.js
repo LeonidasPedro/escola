@@ -37,12 +37,7 @@ const deleteAlunos = async (req, res) => {
         res.status(500).send(err);
     }
 }
-
 module.exports.getAllAlunos=getAllAlunos;
 module.exports.getAlunosById=getAlunosById;
 module.exports.persistirAlunos=persistir;
 module.exports.deleteAlunos=deleteAlunos;
-
-
-
-

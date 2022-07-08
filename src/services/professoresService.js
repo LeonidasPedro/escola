@@ -10,7 +10,12 @@ const getProfessoresById = async (params) => {
     let paciente = await db.query(sql, [params.id]);
     return paciente.rows;
 };
+
 const persistir = async (params) => {
+  params.forEach(aluno => persisteRegistro(aluno)) 
+}
+
+const persisteRegistro = async (params) => {
     if (!params.id) {
       let sql = `insert into professores (matricula, id_pessoa)
         values ($1, $2) returning id;`

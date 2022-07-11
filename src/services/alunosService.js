@@ -14,13 +14,13 @@ const getAlunosById = async (params) => {
 const persistir = async (params) => {
   params.forEach(aluno => persisteRegistro(aluno)) 
 }
-//passa pra cada posição de um array a função que adiciona 
 
+//passa pra cada posição de um array a função que adiciona um registro
+// em objeto [persisteRegistro()]
 
 const persisteRegistro = async (params) => {
-  
-  
   if (!params.id) {
+//se o id não existir executa um insert
     let sql = `insert into alunos (matricula, id_pessoa)
       values ($1, $2) returning id;`
     const {  matricula, id_pessoa } = params;
@@ -29,11 +29,11 @@ const persisteRegistro = async (params) => {
     return { type: 'info', msg: 'Registro incluído com sucesso!', data: { id: query.rows[0].id } };
   }
 
-  let fields = [];
+  let fields = [];//cria um array para os campos
 
   Object.keys(params).forEach(e => {
     if (e !== 'id') {
-      if (params[e] === '' || params[e] == null) {
+      if (params[e] === '' || params[e] == null) { 
         fields.push(`${e} = null`)
       } else {
         fields.push(`${e} = '${params[e]}'`)

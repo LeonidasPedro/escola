@@ -10,11 +10,12 @@ const getPessoasById = async (params) => {
     let paciente = await db.query(sql, [params.id]);
     return paciente.rows;
 };
+
 const persistir = async (params) => {
   params.forEach(aluno => persisteRegistro(aluno)) 
 }
 
-const persisteRegistro= async (params) => {
+const persisteRegistro = async (params) => {
 
   console.log(!params.id)
   if (!params.id) {

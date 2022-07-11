@@ -8,7 +8,7 @@ const getAllProfessores = async() => {
 const getProfessoresById = async (params) => {   
     let sql = `select * from professores where id = $1`;
     let paciente = await db.query(sql, [params.id]);
-    return paciente.rows;
+    return paciente.rows;//rows retorna a resposta do sql
 };
 
 const persistir = async (params) => {

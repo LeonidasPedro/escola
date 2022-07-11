@@ -5,5 +5,6 @@ module.exports = (app) => {
     app.get('/notas/:id', controller.getNotasById)
     app.post('/notas', controller.persistirNotas)
     app.delete('/notas/:id', controller.deleteNotas)
+    app.post('/notasMedia', controller.mediaAluno)
 
 };

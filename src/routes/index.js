@@ -4,6 +4,7 @@ const professores = require('./professoresRoute');
 const disciplinas = require('./disciplinasRoute');
 const notas = require('./notasRoute')
 
+
 module.exports = (app) => {
     pessoas(app)
     alunos(app)

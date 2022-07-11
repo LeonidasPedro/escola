@@ -20,12 +20,22 @@ const getNotasById = async(req, res) => {
 } 
 const persistir = async (req, res) => {
     try {
+        //console.log(req.body);
         const notas = await notasService.persistirNotas(req.body);
         res.status(200).send(notas);
     } catch (err) {
         res.status(500).send(err);
     }
 }
+const mediaAluno = async (req, res) =>{
+    try {   
+        const mediaAluno = notasService.mediaAluno(req.body);
+        res.status(200).send(mediaAluno);}
+    catch (err) { 
+        res.status(500).send(err);
+    }
+}
+
 const deleteNotas = async (req, res) => {
     try {
         let deletado = await notasService.deleteNotas(req.params);
@@ -42,6 +52,7 @@ module.exports.getAllNotas=getAllNotas;
 module.exports.getNotasById=getNotasById;
 module.exports.persistirNotas=persistir;
 module.exports.deleteNotas=deleteNotas;
+module.exports.mediaAluno = mediaAluno;
 
 
 

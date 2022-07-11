@@ -50,6 +50,52 @@ const deleteNotas = async (params) => {
   let query = await db.query(sql, [params.id]);
   return query.rowCount == 1;
 }
+const allMediaAlunos = async (params) =>{
+  let { id_disciplina, data_inicio, data_final} = params
+  sql = `select 
+  p.nome as nome_aluno,
+  n.id_aluno,
+  n.nota,
+  n.peso
+  from
+  notas as n
+  join disciplinas as d on n.id_disciplina = d.id
+  join alunos as a on n.id_aluno = a.id
+  join pessoas as p on a.id_pessoa = p.id
+  where n.id_disciplina = $1 and n.datahora::date between $2 and $3
+  order by a.id asc `
+
+  let res = await db.query(sql, [id_disciplina, data_inicio, data_final]);
+  //console.log(res.rows);
+  let notas = res.rows;
+  let somaNotas = 0;
+  let somaPesos = 0;
+  let retorno = [];
+ // console.log(notas.length);
+  for(let i = 0; i < notas.length; i++){
+   // console.log(notas[i]);
+    somaNotas += parseFloat(notas[i].nota) * parseFloat(notas[i].peso)
+    somaPesos += parseFloat(notas[i].peso)
+    if(!notas[i+1] || notas[i].id_aluno !== notas[i+1].id_aluno){
+      media = somaNotas/somaPesos;
+      somaNotas = 0;
+      somaPesos = 0;
+      let status = media < 5 
+      ? "reprovado"
+      : media >= 7
+      ? "aprovado" 
+      : media >= 5 && media < 7 ? "recuperação" : "";
+      //console.log(`status ${status}`);
+      //console.log(notas[i].nome_aluno);
+      retorno.push({
+        nome: notas[i].nome_aluno,
+        media: media,
+       status: status
+      })
+    }
+  }
+  return retorno;
+}
 const mediaAluno = async (params) => {
   //console.log(params)
   let { matricula, id_disciplina, data_inicio, data_final } = params
@@ -92,9 +138,6 @@ const mediaAluno = async (params) => {
     status = (res.rows[0].nome + " está em recuperação")
   }
   //console.log(status);
-
-
-
   return {
     media: media.toFixed(2),
     mensagem: status,
@@ -109,3 +152,4 @@ module.exports.getNotasById = getNotasById;
 module.exports.persistirNotas = persistir;
 module.exports.deleteNotas = deleteNotas;
 module.exports.mediaAluno = mediaAluno;
+module.exports.allMediaAlunos = allMediaAlunos;

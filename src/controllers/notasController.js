@@ -29,8 +29,19 @@ const persistir = async (req, res) => {
 }
 const mediaAluno = async (req, res) =>{
     try {   
-        const mediaAluno = notasService.mediaAluno(req.body);
+        const mediaAluno = await notasService.mediaAluno(req.body);
+        //console.log(mediaAluno);
         res.status(200).send(mediaAluno);}
+    catch (err) { 
+        res.status(500).send(err);
+    }
+}
+const allMediaAlunos = async (req, res) =>{
+    try {   
+        
+        const media = await notasService.allMediaAlunos(req.body);
+        //console.log(mediaAluno);
+        res.status(200).send(media);}
     catch (err) { 
         res.status(500).send(err);
     }
@@ -53,6 +64,7 @@ module.exports.getNotasById=getNotasById;
 module.exports.persistirNotas=persistir;
 module.exports.deleteNotas=deleteNotas;
 module.exports.mediaAluno = mediaAluno;
+module.exports.allMediaAlunos=allMediaAlunos;
 
 
 
